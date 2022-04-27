@@ -5,6 +5,7 @@ import io
 import numpy as np
 import time
 from func import image_func as imf
+import subprocess
 
 
 def main():
@@ -16,6 +17,8 @@ def main():
     enable_events=False,key='illust')
     window = imf.show_image(image_elem)
     print(type(window))
+    request_msg = "次へ"
+    subprocess.run("D:/Software/assistantseika20220410u/SeikaSay2/SeikaSay2.exe -cid 2001 -t \"{msg}\"".format(msg=request_msg))
     # イベントループ
     while True:
         event, values = window.read()
@@ -31,6 +34,9 @@ def main():
 
             filename = './image/' + files[num]
             image_elem.update(data=imf.get_img_data(filename, first=False))
+            
+            request_msg = "次へ"
+            subprocess.run("D:/Software/assistantseika20220410u/SeikaSay2/SeikaSay2.exe -cid 2001 -t \"{msg}\"".format(msg=request_msg))
         if event == 'Back':
             print("Press Back")
             num-=1
@@ -38,10 +44,14 @@ def main():
                 num = file_len-1
             filename = './image/' + files[num]
             image_elem.update(data=imf.get_img_data(filename, first=True))
+            request_msg = "前へ"
+            subprocess.run("D:/Software/assistantseika20220410u/SeikaSay2/SeikaSay2.exe -cid 2001 -t \"{msg}\"".format(msg=request_msg))
         if event == 'Random':
             num = np.random.randint(low=0, high=file_len-1)
             filename = './image/' + files[num]
             image_elem.update(data=imf.get_img_data(filename, first=True))
+            request_msg = "ランダムに"
+            subprocess.run("D:/Software/assistantseika20220410u/SeikaSay2/SeikaSay2.exe -cid 2001 -t \"{msg}\"".format(msg=request_msg))
         
     window.close()
 
